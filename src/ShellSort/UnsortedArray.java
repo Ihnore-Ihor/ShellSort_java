@@ -1,6 +1,5 @@
 package ShellSort;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class UnsortedArray
@@ -28,7 +27,7 @@ public class UnsortedArray
         {
             for (int j = 0; j < columns; j++)
             {
-                System.out.print(array[i][j] + " ");
+                System.out.printf("%+.3f ", array[i][j]);
             }
             System.out.println();
         }
@@ -47,4 +46,3 @@ public class UnsortedArray
         return columns;
     }
 }
-

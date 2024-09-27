@@ -22,11 +22,14 @@ public class SortedArray {
             for (int j = 0, vj = 0; j < columns; j++) {
                 if (vj < victims[i].length && array[i][j] == victims[i][vj])
                 {
-                    System.out.print(underlineOn + array[i][j] + underlineOff + " ");
+                    String formatted = String.format("%+.3f", array[i][j]);
+                    System.out.print(underlineOn + formatted + underlineOff + " ");
                     vj++;
                 }
                 else
-                    System.out.print(array[i][j] + " ");
+                {
+                    System.out.printf("%+.3f ", array[i][j]);
+                }
             }
             System.out.println();
         }
@@ -39,22 +42,24 @@ public class SortedArray {
         long startTime = System.nanoTime();
 
         for (int d0 = columns / 2; d0 > 0; d0 = d0 / 2) {
-            int victimsCount = (columns - 1) / d0 + 1;
-            double[][] victims = new double[rows][victimsCount];
+            for (int offset = 0; offset < d0; offset++) {
+                int victimsCount = (columns - offset - 1) / d0 + 1;
+                double[][] victims = new double[rows][victimsCount];
 
-            for (int k = 0, i = 0; k < victimsCount && i < columns; k++, i += d0) {
-                for (int j = 0; j < rows; j++) {
-                    victims[j][k] = array[j][i];
+                for (int k = 0, i = 0; k < victimsCount && i < columns; k++, i += d0) {
+                    for (int j = 0; j < rows; j++) {
+                        victims[j][k] = array[j][i + offset];
+                    }
                 }
-            }
 
-            PrintArray(victims);
+                PrintArray(victims);
 
-            InsertionSort(victims);
+                InsertionSort(victims);
 
-            for (int k = 0, i = 0; k < victimsCount && i < columns; k++, i += d0) {
-                for (int j = 0; j < rows; j++) {
-                    array[j][i] = victims[j][k];
+                for (int k = 0, i = 0; k < victimsCount && i < columns; k++, i += d0) {
+                    for (int j = 0; j < rows; j++) {
+                        array[j][i + offset] = victims[j][k];
+                    }
                 }
             }
         }
@@ -66,7 +71,6 @@ public class SortedArray {
         PrintArray(new double[rows][columns]);
         System.out.println("\nSorting took " + duration + "ns\n" + "Total comparisons: " + comparisonCount + "\n");
     }
-
 
     public void InsertionSort(double[][] arr) {
         int size = arr[0].length;
