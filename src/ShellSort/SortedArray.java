@@ -38,31 +38,23 @@ public class SortedArray {
         System.out.println("\nSorting array...\n");
         long startTime = System.nanoTime();
 
-        for (int l = 0; l < columns; l++) { //TODO: continue changing algo. I dont understand what i did, you should rewrite this
-            int d0 = columns / 2;
+        for (int d0 = columns / 2; d0 > 0; d0 = d0 / 2) {
             int victimsCount = (columns - 1) / d0 + 1;
-            System.out.println("="+victimsCount+"=");
-            if (columns % 2 != 0 && l > 0)
-            {
-                victimsCount = victimsCount - 1;
-            }
             double[][] victims = new double[rows][victimsCount];
-            for (; d0 < l; d0 = d0 / 2) {
-                System.out.println("Gap = " + d0);
-                for (int k = 0, i = 0; k < victimsCount && i < columns; k++, i += d0) {
-                    for (int j = 0; j < rows; j++) {
-                        victims[j][k] = array[j][i];
-                    }
+
+            for (int k = 0, i = 0; k < victimsCount && i < columns; k++, i += d0) {
+                for (int j = 0; j < rows; j++) {
+                    victims[j][k] = array[j][i];
                 }
+            }
 
-                PrintArray(victims);
+            PrintArray(victims);
 
-                InsertionSort(victims);
+            InsertionSort(victims);
 
-                for (int k = 0, i = 0; k < victimsCount && i < columns; k++, i += d0) {
-                    for (int j = 0; j < rows; j++) {
-                        array[j][i] = victims[j][k];
-                    }
+            for (int k = 0, i = 0; k < victimsCount && i < columns; k++, i += d0) {
+                for (int j = 0; j < rows; j++) {
+                    array[j][i] = victims[j][k];
                 }
             }
         }
@@ -74,6 +66,7 @@ public class SortedArray {
         PrintArray(new double[rows][columns]);
         System.out.println("\nSorting took " + duration + "ns\n" + "Total comparisons: " + comparisonCount + "\n");
     }
+
 
     public void InsertionSort(double[][] arr) {
         int size = arr[0].length;
